@@ -12,17 +12,17 @@ class TextLoader(BaseDocumentLoader):
         
 class JsonLoader(BaseDocumentLoader):
     def load(self):
-        with open(file=self.file_path, mode='r') as file:
+        with open(file=self.file_path, mode='r',  encoding="utf-8") as file:
             self.raw_content = json.load(file)
-        return self.raw_content
+        return json.dumps(self.raw_content, ensure_ascii=False, indent=2)
         
 
 class CSVLoader(BaseDocumentLoader):
     def load(self):
-        with open(file=self.file_path, mode='r') as csvfile:
+        with open(file=self.file_path, mode='r',  encoding="utf-8", newline="") as csvfile:
             spamreader = csv.reader(csvfile)
             for line in spamreader:
-                self.raw_content+=','.join(line)
+                self.raw_content += ",".join(line) + "\n"
         return self.raw_content    
 
 
@@ -34,6 +34,6 @@ class CSVLoader(BaseDocumentLoader):
 #     textloader = TextLoader(text_path)
 #     jsonloader = JsonLoader(json_path)
 #     csvloader = CSVLoader(csv_path)
-#     print(textloader.load())
-#     print(jsonloader.load())
-#     print(csvloader.load())
+#     print((textloader.load()))
+#     print((jsonloader.load()))
+#     print((csvloader.load()))

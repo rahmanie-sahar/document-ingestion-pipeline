@@ -1,8 +1,18 @@
-from examples.fetch_web_data import FetchWebData
-from src.loader import TextLoader
+from src.base import BaseDocumentLoader
+from src.processor import Processor
 
 
-fetch_web_data = FetchWebData()
-file_path = fetch_web_data.fetch_text()
-text_loader = TextLoader(file_path)
-print(text_loader.load())
+class DocumentPipeline:
+    def __init__( self, loader, processor):
+        self.loader = loader
+        self.processor = processor 
+
+    def run(self) -> list[str]:
+        raw_text = self.loader.load()
+
+        cleaned_text = self.processor.clean_text(raw_text)
+
+  
+        chunks = self.processor.chunk_text(cleaned_text)
+
+        return chunks
